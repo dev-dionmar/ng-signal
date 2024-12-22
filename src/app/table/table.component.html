@@ -1,0 +1,37 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <button mat-flat-button (click)="onOpenDialog('create')">new note</button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-table matSort [dataSource]="dataSource">
+        @for (column of columns; track column) {
+        <ng-container [matColumnDef]="column.columnDef">
+          <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>
+            {{ column.header }}
+          </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let row">
+            {{ column.cell(row) }}
+          </mat-cell>
+        </ng-container>
+        }
+
+        <mat-header-row *matHeaderRowDef="displayedColumns" />
+        <mat-row
+          matRipple
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="onOpenDialog('update', row)"
+        />
+      </mat-table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="tablePage.total"
+        [pageSize]="tablePage.pageSize"
+        [pageIndex]="tablePage.pageIndex"
+        showFirstLastButtons
+      />
+    </mat-card-actions>
+  </mat-card>
+</div>

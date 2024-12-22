@@ -18,7 +18,10 @@ export const TableStore = signalStore(
       const newValue = isDataExists
         ? store.data().map((item) => (item.id === data.id ? data : item)) // Update if found
         : [data, ...store.data()]; // Prepend new address if not found
-      patchState(store, () => ({ data: newValue, count: 1 }));
+      patchState(store, (state) => ({
+        data: newValue,
+        count: isDataExists ? state.count : state.count + 1,
+      }));
     },
   }))
 );

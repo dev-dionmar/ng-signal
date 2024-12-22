@@ -17,8 +17,6 @@ export const TableStore = signalStore(
       action: 'create' | 'update' | 'delete',
       data: NotesArr_i['data'][0]
     ) {
-      const updatedData = store.data().filter((item) => item.id !== data.id);
-
       switch (action) {
         case 'create':
           patchState(store, (state) => ({
@@ -28,14 +26,20 @@ export const TableStore = signalStore(
           break;
 
         case 'update':
-          patchState(store, (state) => ({
-            data: [...updatedData, data],
+          const updatedData = store
+            .data()
+            .map((item) => (item.id === data.id ? { ...item, ...data } : item));
+          patchState(store, () => ({
+            data: updatedData,
           }));
           break;
 
         case 'delete':
+          const dataAfterDelete = store
+            .data()
+            .filter((item) => item.id !== data.id);
           patchState(store, (state) => ({
-            data: updatedData,
+            data: dataAfterDelete,
             count: state.count > 0 ? state.count - 1 : 0, // Ensure count doesn't go below 0
           }));
           break;

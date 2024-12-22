@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableDialogComponent } from './table-dialog/table-dialog.component';
 import { DatePipe } from '@angular/common';
 import { TableStore } from './table.store';
+import { MatIconModule } from '@angular/material/icon';
 
 const DATA: NotesArr_i = {
   data: [
@@ -35,7 +36,7 @@ export interface NotesArr_i {
 
 @Component({
   selector: 'app-table',
-  imports: [MatTableModule, MatCardModule, MatButtonModule],
+  imports: [MatTableModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   providers: [DatePipe],

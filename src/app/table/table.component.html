@@ -17,11 +17,26 @@
         </ng-container>
         }
 
-        <mat-header-row *matHeaderRowDef="displayedColumns" />
+        <ng-container matColumnDef="action">
+          <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef
+            >action</mat-header-cell
+          >
+          <mat-cell mat-cell *matCellDef="let row">
+            <button mat-icon-button (click)="onOpenDialog('update', row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="store.modify('delete', row)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row
+          *matHeaderRowDef="displayedColumns.concat(['action'])"
+        />
         <mat-row
           matRipple
-          *matRowDef="let row; columns: displayedColumns"
-          (click)="onOpenDialog('update', row)"
+          *matRowDef="let row; columns: displayedColumns.concat(['action'])"
         />
       </mat-table>
     </mat-card-content>

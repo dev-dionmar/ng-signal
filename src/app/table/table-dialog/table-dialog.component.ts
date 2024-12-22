@@ -37,13 +37,13 @@ export class TableDialogComponent {
 
   onSubmit() {
     if (this.dialogData.title === 'create') {
-      this.store.modify({
+      this.store.modify('create', {
         id: Math.floor(Math.random() * 10) + 11,
         note: this.form.value.note as string,
         createdAt: new Date(),
       });
     } else {
-      this.store.modify({
+      this.store.modify('update', {
         id: this.dialogData.row.id,
         note: this.form.value.note as string,
         createdAt: this.dialogData.row.createdAt,

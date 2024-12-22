@@ -13,15 +13,33 @@ export const TableStore = signalStore(
     init(data: NotesArr_i) {
       patchState(store, () => data);
     },
-    modify(data: NotesArr_i['data'][0]) {
-      const isDataExists = store.data().some((item) => item.id === data.id);
-      const newValue = isDataExists
-        ? store.data().map((item) => (item.id === data.id ? data : item)) // Update if found
-        : [data, ...store.data()]; // Prepend new address if not found
-      patchState(store, (state) => ({
-        data: newValue,
-        count: isDataExists ? state.count : state.count + 1,
-      }));
+    modify(
+      action: 'create' | 'update' | 'delete',
+      data: NotesArr_i['data'][0]
+    ) {
+      const updatedData = store.data().filter((item) => item.id !== data.id);
+
+      switch (action) {
+        case 'create':
+          patchState(store, (state) => ({
+            data: [data, ...state.data],
+            count: state.count + 1,
+          }));
+          break;
+
+        case 'update':
+          patchState(store, (state) => ({
+            data: [...updatedData, data],
+          }));
+          break;
+
+        case 'delete':
+          patchState(store, (state) => ({
+            data: updatedData,
+            count: state.count > 0 ? state.count - 1 : 0, // Ensure count doesn't go below 0
+          }));
+          break;
+      }
     },
   }))
 );

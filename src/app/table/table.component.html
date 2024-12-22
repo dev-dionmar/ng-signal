@@ -3,8 +3,9 @@
     <mat-card-header>
       <button mat-flat-button (click)="onOpenDialog('create')">new note</button>
     </mat-card-header>
+    <mat-card-subtitle> total : {{ store.count() }} </mat-card-subtitle>
     <mat-card-content>
-      <mat-table matSort [dataSource]="dataSource">
+      <mat-table matSort [dataSource]="store.data()">
         @for (column of columns; track column) {
         <ng-container [matColumnDef]="column.columnDef">
           <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>
@@ -24,14 +25,5 @@
         />
       </mat-table>
     </mat-card-content>
-    <mat-card-actions align="end">
-      <mat-paginator
-        (page)="handlePageEvent($event)"
-        [length]="tablePage.total"
-        [pageSize]="tablePage.pageSize"
-        [pageIndex]="tablePage.pageIndex"
-        showFirstLastButtons
-      />
-    </mat-card-actions>
   </mat-card>
 </div>
